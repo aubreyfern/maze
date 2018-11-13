@@ -1,2 +1,2 @@
-# maze
+# Kolby's Log
 
