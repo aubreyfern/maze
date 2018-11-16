@@ -9,5 +9,5 @@
 
 11/13/18:
 - Put in art for furniture
-- Finished sliding chairs/moving tables, button triggers for one person doors, chair doors, and multi-switch doors
+- Finished sliding chairs/moving tables, button triggers for one person doors, chair doors, and multi-switch doors, and alternate version of stairs are done (Basically, all core game mechanics are working.)
 
