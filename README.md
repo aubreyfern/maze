@@ -3,7 +3,7 @@
 ## Authors
 
 **Students:**
-<br><br>
+<br>
 Abigail Tan - tan177@mail.chapman.edu
 <br>
 Chase Mitchell - mitch213@mail.chapman.edu
@@ -14,8 +14,9 @@ Aubrey Fernando - ferna190@mail.chapman.edu
 <br>
 Kolby Ramirez - ramir266@mail.chapman.edu 
 
+
 **Faculty Mentor:**
-<br><br>
+<br>
 Dr. Michael Fahy - fahy@chapman.edu
 
 ## Abstract
