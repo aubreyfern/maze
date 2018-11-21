@@ -7,7 +7,8 @@
  * Email:  ander428@mail.chapman.edu
  * Version: 0.1
  *
- *
+ * This class is used by the client to communicate with the server. Here the client
+ * sends requests to be spawned by the server.
  *
  */
 

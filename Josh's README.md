@@ -11,3 +11,7 @@ Troubleshooted connecting to server from other computers
 11/12/18:
 Solved connection issues
 Color-coded messages based off of message tag
+11/14/18:
+Created Multiplayer Server UNET Script
+11/15/18:
+Establshed sucessful connection with client-server for player movement
