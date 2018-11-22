@@ -43,20 +43,23 @@ public class ChatManager : MonoBehaviour {
     // Add user input to chatroom
     public void clientUpdate()
     {
-        messages.text += String.Format("<b><color={0}>You:</color></b> " + input.text + "\n", messageColor);
+        messages.text += String.Format("\n" + "<b><color={0}>You:</color></b> " + input.text, messageColor);
         input.text = "";
+       scroll();
     }
 
     // Add server input to chatroom
     public void serverUpdate(string message)
     {
-        if (message.StartsWith("Player1")) message = String.Format("<b><color={0}>", Global.player1Hex)
+        if (message.StartsWith("Player1")) message = String.Format("\n" + "<b><color={0}>", Global.player1Hex)
                      + message.Substring(0, 6) + " " + message[6] + ":</color></b>" + message.Substring(8);
 
-        else if (message.StartsWith("Player2")) message = String.Format("<b><color={0}>", Global.player2Hex)
+        else if (message.StartsWith("Player2")) message = String.Format("\n" + "<b><color={0}>", Global.player2Hex)
                  + message.Substring(0, 6) + " " + message[6] + ":</color></b>" + message.Substring(8);
 
         messages.text += message + "\n";
+
+       scroll();
     }
 
     // Force UI Scroll to bottom with new message

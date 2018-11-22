@@ -5,7 +5,7 @@
  *
  * Author: Joshua Anderson
  * Email:  ander428@mail.chapman.edu
- * Version: 1.22
+ * Version: 1.23
  *
  * This class handles communication between the client
  * and the server.  It runs in a separate thread but has a
@@ -109,6 +109,10 @@ public class ClientHandler implements Runnable {
               else if(clientText.startsWith("Object", 0)) {
                 actionCount++;
                 System.out.println("From Object Count: " + actionCount);
+              }
+
+              else {
+                continue;
               }
 
               playerTotal = player1Count + player2Count;

@@ -5,7 +5,7 @@
  * 
  * Author: Joshua Anderson
  * Email:  ander428@mail.chapman.edu
- * Version: 0.1
+ * Version: 1.0
  *
  * This class is used by the client to communicate with the server. Here the client
  * sends requests to be spawned by the server.
@@ -50,8 +50,17 @@ public class PlayerNetObj : NetworkBehaviour {
     {
         // Create object on server
         GameObject player;
-        if (NetworkServer.connections.Count == 1) player = Instantiate(player1Prefab);
-        else player = Instantiate(player2Prefab);
+        if (NetworkServer.connections.Count == 1)
+        { // Player 1
+            Vector3 pos = new Vector3(GameObject.Find("Player1Start").transform.position.x, GameObject.Find("Player1Start").transform.position.y, 0);
+            player = Instantiate(player1Prefab, pos, Quaternion.identity);
+        }
+
+        else
+        { // Player 2
+            Vector3 pos = new Vector3(GameObject.Find("Player2Start").transform.position.x, GameObject.Find("Player2Start").transform.position.y, 0);
+            player = Instantiate(player2Prefab, pos, Quaternion.identity);
+        }
 
         // Propogate object to all clients
         NetworkServer.SpawnWithClientAuthority(player, connectionToClient);

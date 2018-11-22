@@ -2,3 +2,6 @@
 
 # Ignore temp files
 *.meta
+
+# Ignore all class files
+*.class

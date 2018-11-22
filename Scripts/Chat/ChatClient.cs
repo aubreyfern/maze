@@ -5,7 +5,7 @@
  * 
  * Author: Joshua Anderson
  * Email:  ander428@mail.chapman.edu
- * Version: 2.3
+ * Version: 2.32
  *
  * This program implements a simple multithreaded chat client. It connects
  * to the server based on the IP and port in Global.cs and starts two theads.
@@ -26,6 +26,7 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,7 @@ public class ChatClient : MonoBehaviour
     private TcpClient connectionSock = null;
     private BinaryWriter serverOutput = null;
     private ClientListener listener = null;
+    private Timer timer;
 
     // UI conneciton
     public ChatManager manager;
@@ -46,6 +48,16 @@ public class ChatClient : MonoBehaviour
     void Start()
     {
         manager.setColor(clientTag);
+
+        // Connect server automatically
+        if (clientTag.Equals("Manager"))
+        {
+            // Allow time for server to start berfore connecting
+            timer = new Timer();
+            timer.Elapsed += new ElapsedEventHandler(run);
+            timer.Interval = 2000;
+            timer.Enabled = true;
+        }
     }
 
     void Update()
@@ -56,8 +68,12 @@ public class ChatClient : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return) && !manager.getInput().text.Equals(""))
             {
                 string data = manager.getInput().text;
-                send(clientTag + ": " + data);
 
+                // Check if client is NetworkManager
+                if(!clientTag.Equals("Manager")) send(clientTag + ": " + data);
+                else send(data);
+                
+                // Update UI
                 manager.clientUpdate();
             }
         }
@@ -90,14 +106,19 @@ public class ChatClient : MonoBehaviour
             // Start thread and display data from server
             listener = new ClientListener(connectionSock);
             listener.startThread();
-
-            send("Connection Made");
         }
 
         catch (Exception ex)
         {
             Debug.Log("Error: " + ex.ToString());
         }
+    }
+
+    // Used for delayed call with timer
+    private void run(object sender, EventArgs e)
+    {
+        run();
+        timer.Stop();
     }
 
     // Standardize sending message to server
@@ -109,8 +130,8 @@ public class ChatClient : MonoBehaviour
     // End connection
     public void stop()
     {
-        // Player1 kills the server on disconnect
-        if (clientTag.Equals("Player1"))
+        // NetworkManager kills the server on disconnect
+        if (clientTag.Equals("Manager"))
         {
             send("QUIT");
         }
@@ -127,6 +148,8 @@ public class ChatClient : MonoBehaviour
             catch (ObjectDisposedException e) { } // connection already closed
         }
     }
+
+
 
     // Force quit the connection if application is closed
     void OnApplicationQuit()

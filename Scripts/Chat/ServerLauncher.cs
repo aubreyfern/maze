@@ -21,10 +21,9 @@ using UnityEngine;
 
 public class ServerLauncher : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-		System.Diagnostics.Process process = new System.Diagnostics.Process();
+    public static void launch()
+    {
+        System.Diagnostics.Process process = new System.Diagnostics.Process();
 		System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
 		//startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 		startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized;
@@ -32,6 +31,12 @@ public class ServerLauncher : MonoBehaviour {
 		startInfo.Arguments = "/C cd Assets\\Scripts\\Chat && javac *.java && java MtServer ";
 		process.StartInfo = startInfo;
 		process.Start();
+    }
+
+	// Use this for initialization
+	void Start () {
+		
+		
 	}
 	
 	// Update is called once per frame
