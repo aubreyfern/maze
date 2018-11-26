@@ -14,3 +14,6 @@
 11/16/18:
 - Alternate version of stair triggers are done (All core game mechanics should be working.)
 
+11/24/18:
+- Added load next level trigger
+
