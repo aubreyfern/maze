@@ -17,3 +17,5 @@ Created Multiplayer Server UNET Script
 Establshed sucessful connection with client-server for player movement
 11/21/18:
 Implemented multiplayer features to level 1 & 2
+11/24/18:
+Added Multiplayer to tutorial and added chat features to each level

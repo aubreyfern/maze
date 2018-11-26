@@ -5,7 +5,7 @@
  *
  * Author: Joshua Anderson
  * Email:  ander428@mail.chapman.edu
- * Version: 1.23
+ * Version: 1.3
  *
  * This class handles communication between the client
  * and the server.  It runs in a separate thread but has a
@@ -74,6 +74,17 @@ public class ClientHandler implements Runnable {
             if(clientText.equals("TOTAL")) {
               DataOutputStream clientOutput = new DataOutputStream(connectionSock.getOutputStream());
               clientOutput.writeBytes("TOTAL:" + playerTotal + "\n");
+            }
+
+            // Tag assignment request
+            else if(clientText.equals("TAG")) {
+              int playerID = 0;
+              for(int i = 0; i < socketList.size(); ++i) {
+                if(socketList.get(i) == connectionSock) playerID = i;
+              }
+
+              DataOutputStream clientOutput = new DataOutputStream(connectionSock.getOutputStream());
+              clientOutput.writeBytes("TAG:" + "Player" + playerID + "\n");
             }
 
             // Reset server data

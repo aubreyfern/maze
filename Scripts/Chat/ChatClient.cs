@@ -5,7 +5,7 @@
  * 
  * Author: Joshua Anderson
  * Email:  ander428@mail.chapman.edu
- * Version: 2.32
+ * Version: 2.4
  *
  * This program implements a simple multithreaded chat client. It connects
  * to the server based on the IP and port in Global.cs and starts two theads.
@@ -43,21 +43,19 @@ public class ChatClient : MonoBehaviour
 
     // Message Tag
     public string clientTag;
+    private bool isManager;
 
     // Use this for initialization
     void Start()
     {
-        manager.setColor(clientTag);
+        if (!clientTag.Equals("") && clientTag.Equals("Manager")) isManager = true;
 
         // Connect server automatically
-        if (clientTag.Equals("Manager"))
-        {
-            // Allow time for server to start berfore connecting
-            timer = new Timer();
-            timer.Elapsed += new ElapsedEventHandler(run);
-            timer.Interval = 2000;
-            timer.Enabled = true;
-        }
+        // Allow time for server to start berfore connecting
+        timer = new Timer();
+        timer.Elapsed += new ElapsedEventHandler(start);
+        timer.Interval = 2000;
+        timer.Enabled = true;
     }
 
     void Update()
@@ -70,11 +68,15 @@ public class ChatClient : MonoBehaviour
                 string data = manager.getInput().text;
 
                 // Check if client is NetworkManager
-                if(!clientTag.Equals("Manager")) send(clientTag + ": " + data);
+                if (!clientTag.Equals("") && !isManager)
+                {
+                    Debug.Log("Message sent with tag: " + clientTag);
+                    send(clientTag + ": " + data);
+                    manager.clientUpdate(); // Update UI
+                }
                 else send(data);
                 
-                // Update UI
-                manager.clientUpdate();
+                
             }
         }
 
@@ -87,9 +89,26 @@ public class ChatClient : MonoBehaviour
         // Update UI text if data received from server
         if (listener != null && !listener.getText().Equals(""))
         {
-            manager.serverUpdate(listener.getText());
+            string data = listener.getText();
+
+            // Check if response is from server function
+            if (data.StartsWith("TAG:")) clientTag = data.Substring(4);
+            else manager.serverUpdate(listener.getText());
+
             listener.setText("");
         }
+    }
+
+    // Used for delayed call with timer
+    private void start(object sender, EventArgs e)
+    {
+        run();
+
+        // Get player tag from server if not manager
+        if (!isManager) send("TAG");
+        manager.setColor(clientTag);
+
+        timer.Stop();
     }
 
     // Initialize connection to server
@@ -103,9 +122,14 @@ public class ChatClient : MonoBehaviour
             serverOutput = new BinaryWriter(connectionSock.GetStream());
             Debug.Log("Connection Made");
 
-            // Start thread and display data from server
-            listener = new ClientListener(connectionSock);
-            listener.startThread();
+            // Only players need to listen to the server
+            if (!isManager)
+            {
+                // Start thread and display data from server
+                listener = new ClientListener(connectionSock);
+                listener.startThread();
+            }
+            
         }
 
         catch (Exception ex)
@@ -114,24 +138,20 @@ public class ChatClient : MonoBehaviour
         }
     }
 
-    // Used for delayed call with timer
-    private void run(object sender, EventArgs e)
-    {
-        run();
-        timer.Stop();
-    }
-
+  
     // Standardize sending message to server
     public void send(string message)
     {
         serverOutput.Write(Encoding.ASCII.GetBytes(message + "\n"));
+
+        Debug.Log(message);
     }
 
     // End connection
     public void stop()
     {
         // NetworkManager kills the server on disconnect
-        if (clientTag.Equals("Manager"))
+        if (isManager)
         {
             send("QUIT");
         }

@@ -5,7 +5,7 @@
  * 
  * Author: Joshua Anderson
  * Email:  ander428@mail.chapman.edu
- * Version: 1.0
+ * Version: 1.1
  * 
  * This program plays the role of a UI manager for the client chatroom. The manager
  * takes in data from the chat client and updates the UI to match the current data.
@@ -30,6 +30,7 @@ public class ChatManager : MonoBehaviour {
     void Start ()
     {
         messages.supportRichText = true; // Initialize Rich Text
+        scaleText(messages);
     }
 
     // Assign color value to local player messages
@@ -60,6 +61,15 @@ public class ChatManager : MonoBehaviour {
         messages.text += message + "\n";
 
        scroll();
+    }
+
+    // Scale text for different resolution
+    private void scaleText(Text text)
+    {
+        if (Screen.height >= 1920 && Screen.width >= 1440) text.fontSize = 32;
+        else if (Screen.height >= 900 && Screen.width >= 1800) text.fontSize = 25;
+        else if (Screen.height >= 900 && Screen.width >= 1440) text.fontSize = 18;
+        else if (Screen.height <= 800 && Screen.width <= 1200) text.fontSize = 15;
     }
 
     // Force UI Scroll to bottom with new message

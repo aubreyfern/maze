@@ -24,6 +24,8 @@ public class PlayerNetObj : NetworkBehaviour {
 
     public MultiplayerServer server;
 
+    private int conn = 0;
+
     private int count = 1;
 
     // Use this for initialization
@@ -50,17 +52,21 @@ public class PlayerNetObj : NetworkBehaviour {
     {
         // Create object on server
         GameObject player;
+        this.conn = NetworkServer.connections.Count;
         if (NetworkServer.connections.Count == 1)
         { // Player 1
+
             Vector3 pos = new Vector3(GameObject.Find("Player1Start").transform.position.x, GameObject.Find("Player1Start").transform.position.y, 0);
             player = Instantiate(player1Prefab, pos, Quaternion.identity);
         }
 
-        else
+        else if (NetworkServer.connections.Count == 2)
         { // Player 2
             Vector3 pos = new Vector3(GameObject.Find("Player2Start").transform.position.x, GameObject.Find("Player2Start").transform.position.y, 0);
             player = Instantiate(player2Prefab, pos, Quaternion.identity);
         }
+
+        else player = null;
 
         // Propogate object to all clients
         NetworkServer.SpawnWithClientAuthority(player, connectionToClient);
