@@ -52,10 +52,8 @@ public class ChatClient : MonoBehaviour
 
         // Connect server automatically
         // Allow time for server to start berfore connecting
-        timer = new Timer();
-        timer.Elapsed += new ElapsedEventHandler(start);
-        timer.Interval = 2000;
-        timer.Enabled = true;
+        //run();
+
     }
 
     void Update()
@@ -74,9 +72,9 @@ public class ChatClient : MonoBehaviour
                     send(clientTag + ": " + data);
                     manager.clientUpdate(); // Update UI
                 }
-                else send(data);
-                
-                
+                //else send(data);
+
+
             }
         }
 
@@ -99,24 +97,12 @@ public class ChatClient : MonoBehaviour
         }
     }
 
-    // Used for delayed call with timer
-    private void start(object sender, EventArgs e)
-    {
-        run();
-
-        // Get player tag from server if not manager
-        if (!isManager) send("TAG");
-        manager.setColor(clientTag);
-
-        timer.Stop();
-    }
-
     // Initialize connection to server
     public void run()
     {
+        // Connect to server
         try
         {
-            // Connect to server
             Debug.Log("Connecting to server on port " + Global.port);
             connectionSock = new TcpClient(Global.hostname, Global.port);
             serverOutput = new BinaryWriter(connectionSock.GetStream());
@@ -129,16 +115,26 @@ public class ChatClient : MonoBehaviour
                 listener = new ClientListener(connectionSock);
                 listener.startThread();
             }
-            
         }
+        catch (Exception e) { }
 
-        catch (Exception ex)
-        {
-            Debug.Log("Error: " + ex.ToString());
-        }
+        // Get player tag from server if not manager
+        if (!isManager) send("TAG");
+
+        timer = new Timer();
+        timer.Elapsed += new ElapsedEventHandler(assignColor);
+        timer.Interval = 2000;
+        timer.Enabled = true;
+
+
     }
 
-  
+    private void assignColor(object sender, EventArgs e)
+    {
+        manager.setColor(clientTag);
+    }
+
+
     // Standardize sending message to server
     public void send(string message)
     {
@@ -151,7 +147,7 @@ public class ChatClient : MonoBehaviour
     public void stop()
     {
         // NetworkManager kills the server on disconnect
-        if (isManager)
+        if (clientTag.StartsWith("Player1"))
         {
             send("QUIT");
         }

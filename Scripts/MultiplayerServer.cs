@@ -26,7 +26,7 @@ public class MultiplayerServer : NetworkManager {
     public void Start()
     {
         // IP.text = public IP;
-        ServerLauncher.launch();
+        //ServerLauncher.launch();
     }
 
     public override void OnServerConnect(NetworkConnection conn)
@@ -35,6 +35,7 @@ public class MultiplayerServer : NetworkManager {
         {
             playerCount += 1;
         }
+        
     }
 
     public int currentPlayer() { return playerCount; }

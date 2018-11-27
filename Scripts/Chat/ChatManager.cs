@@ -18,7 +18,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChatManager : MonoBehaviour {
+public class ChatManager : MonoBehaviour
+{
 
     // UI vars
     public Text messages;
@@ -27,7 +28,7 @@ public class ChatManager : MonoBehaviour {
     private string messageColor;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         messages.supportRichText = true; // Initialize Rich Text
         scaleText(messages);
@@ -36,17 +37,17 @@ public class ChatManager : MonoBehaviour {
     // Assign color value to local player messages
     public void setColor(string tag)
     {
-        if (tag.Equals("Player1")) messageColor = Global.player1Hex;
-        else if (tag.Equals("Player2")) messageColor = Global.player2Hex;
-        else messageColor = "#000";
+        if (tag.StartsWith("Player1")) messageColor = Global.player1Hex;
+        else messageColor = Global.player2Hex;
     }
 
     // Add user input to chatroom
     public void clientUpdate()
     {
         messages.text += String.Format("\n" + "<b><color={0}>You:</color></b> " + input.text, messageColor);
+        Debug.Log("Color: " + messageColor);
         input.text = "";
-       scroll();
+        scroll();
     }
 
     // Add server input to chatroom
@@ -60,7 +61,7 @@ public class ChatManager : MonoBehaviour {
 
         messages.text += message + "\n";
 
-       scroll();
+        scroll();
     }
 
     // Scale text for different resolution

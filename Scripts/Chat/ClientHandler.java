@@ -80,7 +80,7 @@ public class ClientHandler implements Runnable {
             else if(clientText.equals("TAG")) {
               int playerID = 0;
               for(int i = 0; i < socketList.size(); ++i) {
-                if(socketList.get(i) == connectionSock) playerID = i;
+                if(socketList.get(i) == connectionSock) playerID = i+1;
               }
 
               DataOutputStream clientOutput = new DataOutputStream(connectionSock.getOutputStream());

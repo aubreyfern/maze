@@ -21,7 +21,7 @@ using UnityEngine;
 
 public class ServerLauncher : MonoBehaviour {
 
-    public static void launch()
+    public void launch()
     {
         System.Diagnostics.Process process = new System.Diagnostics.Process();
 		System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();

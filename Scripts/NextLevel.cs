@@ -9,6 +9,8 @@ public class NextLevel : MonoBehaviour {
     bool oneDone = false;
     bool twoDone = false;
 
+    public MultiplayerServer manager;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player1")
@@ -26,6 +28,7 @@ public class NextLevel : MonoBehaviour {
         if (oneDone && twoDone)
         {
             SceneManager.LoadScene(LevelToLoadName);
+            manager.ServerChangeScene(LevelToLoadName);
         }
 
     }

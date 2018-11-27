@@ -16,12 +16,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlidingChair : MonoBehaviour {
+public class SlidingChair : MonoBehaviour
+{
 
     public bool left;
     public bool right;
     public bool bottom;
-    public bool top; 
+    public bool top;
 
     private void OnCollisionEnter2D(Collision2D col)
     {
@@ -31,13 +32,13 @@ public class SlidingChair : MonoBehaviour {
         if ((col.gameObject.tag == "Player1" || col.gameObject.tag == "Player2") && col.gameObject.tag != "Wall")
         {
             if (left)
-                newPos = new Vector2(chairParent.transform.position.x + .32f, chairParent.transform.position.y);
-            else if(right)
-                newPos = new Vector2(chairParent.transform.position.x - .32f, chairParent.transform.position.y);
+                newPos = new Vector2(chairParent.transform.position.x + .08f, chairParent.transform.position.y);
+            else if (right)
+                newPos = new Vector2(chairParent.transform.position.x - .08f, chairParent.transform.position.y);
             else if (bottom)
-                newPos = new Vector2(chairParent.transform.position.x, chairParent.transform.position.y + .32f);
+                newPos = new Vector2(chairParent.transform.position.x, chairParent.transform.position.y + .08f);
             else if (top)
-                newPos = new Vector2(chairParent.transform.position.x, chairParent.transform.position.y - .32f);
+                newPos = new Vector2(chairParent.transform.position.x, chairParent.transform.position.y - .08f);
             else
                 newPos = chairParent.transform.position;
 
