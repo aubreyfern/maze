@@ -19,3 +19,5 @@ Establshed sucessful connection with client-server for player movement
 Implemented multiplayer features to level 1 & 2
 11/24/18:
 Added Multiplayer to tutorial and added chat features to each level
+11/26/18:
+Worked on bugs related to chat server and multiplayer running at the same time
