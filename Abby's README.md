@@ -14,3 +14,7 @@
 11/16/18:
 - Alternate version of stair triggers are done (All core game mechanics should be working.)
 
+11/26/18:
+- Sliding chair bug fixed 
+- Next level trigger in
+
